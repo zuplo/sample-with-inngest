@@ -8,7 +8,7 @@ import { serve } from "inngest/edge";
 export default async function (request: ZuploRequest, context: ZuploContext) {
   const inngest = new Inngest({
     name: "My Project",
-    env: environment.INNGEST_BRANCH,
+    env: environment.ZUPLO_ENVIRONMENT_TYPE,
     eventKey: environment.INNGEST_EVENT_KEY,
     logger: context.log,
   });
