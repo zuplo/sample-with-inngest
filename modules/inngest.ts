@@ -3,28 +3,24 @@ import { Inngest } from "inngest";
 // @ts-ignore
 import { serve } from "inngest/edge";
 
-const name = "My Project"
 
-export const inngest = new Inngest({
-  name,
-  eventKey: environment.INNGEST_EVENT_KEY,
-});
-
-const helloWorld = inngest.createFunction(
-  { name: "Hello World" },
-  { event: "test/hello.world" },
-  async ({ event, step }) => {
-    await step.sleep("1s");
-    return { event, body: "Hello, World!" };
-  }
-);
 
 export default async function (request: ZuploRequest, context: ZuploContext) {
   const inngest = new Inngest({
-    name,
+    name: "My Project",
+    env: new URL(request.url).host.split(".")[0],
     eventKey: environment.INNGEST_EVENT_KEY,
     logger: context.log,
   });
+
+  const helloWorld = inngest.createFunction(
+    { name: "Hello World" },
+    { event: "test/hello.world" },
+    async ({ event, step }) => {
+      await step.sleep("1s");
+      return { event, body: "Hello, World!" };
+    }
+  );
 
   const handler = serve(inngest, [helloWorld], {
     logLevel: environment.ZUPLO_LOG_LEVEL,
