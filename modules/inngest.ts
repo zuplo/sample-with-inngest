@@ -6,9 +6,10 @@ import { serve } from "inngest/edge";
 
 
 export default async function (request: ZuploRequest, context: ZuploContext) {
+  const deploymentName = new URL(request.url).host.split(".")[0];
   const inngest = new Inngest({
     name: "My Project",
-    env: new URL(request.url).host.split(".")[0],
+    env: deploymentName === "with-inngest-main-1e1a5a5" ? undefined : deploymentName,
     eventKey: environment.INNGEST_EVENT_KEY,
     logger: context.log,
   });
