@@ -4,7 +4,7 @@ import { Inngest } from "inngest";
 export default async function (request: ZuploRequest, context: ZuploContext) {
   const inngest = new Inngest({
     name: "My Project",
-    env: new URL(request.url).host.split(".")[0],
+    env: environment.ZUPLO_ENVIRONMENT_TYPE,
     eventKey: environment.INNGEST_EVENT_KEY,
   });
 
